@@ -74,6 +74,10 @@ class Contenedor {
         if(objetoActualizado!=undefined){
             objetoActualizado.title = objeto.title;
             objetoActualizado.price = objeto.price;
+            objetoActualizado.description = objeto.description;
+            objetoActualizado.thumbnail = objeto.thumbnail;
+            objetoActualizado.stock= objeto.stock;
+            objetoActualizado.codigo= objeto.codigo;
             let json = JSON.stringify(contenedor);
             fs.promises.writeFile(archivoTxt, json);
             console.log('objeto actualizado');

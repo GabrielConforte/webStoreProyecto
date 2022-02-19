@@ -2,7 +2,7 @@ const express = require('express');
 const routes = express.Router();
 const contenedor = require("../models/contenedor");
 const carrito = require("../models/carrito");
-const isAdmin = false
+const isAdmin = true
 
 const error403 = {
     status: 403,
@@ -58,7 +58,7 @@ routes.delete('/productos/:id', async (req, res) => {
 routes.put('/productos/:id', async (req, res) => {
     if(isAdmin){
     try {
-        let objeto = await contenedor.update(req.params.id, req.body);
+        await contenedor.update(req.params.id, req.body);
         res.json("objeto actualizado");
     }
     catch (error) {
@@ -80,6 +80,8 @@ routes.get('/productos', async (req, res) => {
             });
 
 //rutas para el carrito
+
+
 
 routes.post('/carrito', async (req, res) => {
     try {
