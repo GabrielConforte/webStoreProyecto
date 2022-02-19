@@ -117,7 +117,9 @@ routes.get('/carrito/:id/productos', async (req, res) => {
 
 routes.post('/carrito/:id/productos/:id_prod', async (req, res) => {
     try {
+
         let producto = await contenedor.getById(req.params.id_prod);
+        console.log(producto);
         let objeto = await carrito.addProducto(req.params.id, producto);
         res.json(objeto);
     }

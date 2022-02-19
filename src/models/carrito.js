@@ -44,6 +44,7 @@ class Carrito {
             let listaCarritos = await this.getAll();
             listaCarritos = JSON.parse(listaCarritos);
             let objeto = listaCarritos.find(obj => obj.id == id);
+            producto.codigo = new Date().getTime();
             if(objeto!=undefined){
                 objeto.items.push(producto);
                 let json = JSON.stringify(listaCarritos);

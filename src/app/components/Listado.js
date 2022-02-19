@@ -8,10 +8,9 @@ import FormEdit from "./FormEdit";
 
 function Listado() {
     const [productos, setProductos] = useState([]);
-
     useEffect(() => {
         getLista();
-    }, [productos]);
+    }, [setProductos]);
 
     const getLista = () => {
         fetch("/api/productos")
@@ -35,13 +34,17 @@ function Listado() {
 
     
     const editarProducto = (producto) => {
-       // setProductos(productos.map(p => p.id === producto.id ? producto : p));
-        //renderiza el componente FormEdit
         render(<FormEdit producto={producto} />, document.getElementById("app"));
     }
- 
+
+    const agregarAlCarrito = (id) => {
+        fetch(`/api/carrito/1/productos/${id}`, {
+            method: "POST"
+        })
+
+        }
         return (
-                    <div className="col-7">
+                    <div className="col-5">
                         <div className="card">
                             <div className="card-body">
                                 <h5 className="card-title">Listado de productos</h5>
@@ -54,10 +57,19 @@ function Listado() {
                                                 <p>{"$"+producto.price}</p>
                                                 <p>{<img width="100px" src={producto.thumbnail}></img>}</p>
                                                 <p>{producto.description}</p>
-                                                <p>{producto.codigo}</p>
                                                 <p>{producto.stock}</p>
-                                                <div className="m-2"><button type="submit" onClick={()=>{eliminarProducto(producto.id)}}className="btn btn-danger">Borrar</button>
-                                                <button type="submit" onClick={()=>{editarProducto(producto)}}className="btn btn-warning">Editar</button></div>
+                                                <div className="container p-1">
+                                                    <div className="m-1">
+                                                        <button type="submit" onClick={()=>{agregarAlCarrito(producto.id)}}className="btn btn-success">Añadir al Carro</button>
+                                                        </div>
+                                                    <div className="m-1">
+                                                        <button type="submit" onClick={()=>{eliminarProducto(producto.id)}}className="btn btn-danger">Borrar</button>
+                                                        <button type="submit" onClick={()=>{editarProducto(producto)}}className="btn btn-warning">Editar</button>
+                                                        </div>
+                                               
+                                                
+                                                
+                                                </div>
                                                 
                                             </div>
                                         )

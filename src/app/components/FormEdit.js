@@ -32,7 +32,9 @@ function FormEdit(props){
         })
     }
 
-return(<div className="card">
+return(
+<div className="container">
+  <div className="card">
 <div className="card-body">
     <h5 className="card-title">Editar producto</h5>
     <div className="card-text">
@@ -65,7 +67,9 @@ return(<div className="card">
         </form>
     </div>
 </div>
+</div>  
 </div>
+
 )}
 
 export default FormEdit;

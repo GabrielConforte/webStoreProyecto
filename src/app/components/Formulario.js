@@ -14,7 +14,7 @@ function Formulario() {
                 price: e.target.price.value,
                 thumbnail: e.target.thumbnail.value,
                 description: e.target.description.value,
-                codigo: e.target.codigo.value,
+                codigo: ((Math.random() * 10000)+ new Date().getTime()),
                 stock: e.target.stock.value
             }),
             headers: {
@@ -49,10 +49,6 @@ function Formulario() {
                                 </div>
                                 <div className="form-group">
                                     <textarea width="150px" maxLength="128" id="description" name="description"className='rounded s' placeholder='Descripcion - 128c max.'></textarea>
-                                </div>
-                                <div className="form-group">
-                                    <label>Codigo</label>
-                                    <input type="number" className="form-control" id="codigo" name="codigo" placeholder="Codigo"></input>
                                 </div>
                                 <div className="form-group">
                                     <label>Stock</label>
