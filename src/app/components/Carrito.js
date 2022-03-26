@@ -1,14 +1,10 @@
 import React , {useState, useEffect} from "react";
-import { render } from "react-dom";
 
 function Carrito() {
     let carrito_id = 1;
    const [carrito, setCarrito] = useState([]);
     let aux = '';
     
-
-
-
     useEffect(() => {
         getLista();
     }, [carrito]);

@@ -10,13 +10,12 @@ function Listado() {
     const [productos, setProductos] = useState([]);
     useEffect(() => {
         getLista();
-    }, [setProductos]);
+    }, [productos]);
 
     const getLista = () => {
         fetch("/api/productos")
             .then(res => res.json())
             .then(data => {
-                data = JSON.parse(data);
                 setProductos(data);
             })
     }

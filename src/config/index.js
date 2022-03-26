@@ -1,12 +1,18 @@
+
 require("dotenv").config();
 
 let config = {
     port: process.env.PORT,
-    clase: process.env.CLASE,
+    cors: process.env.CORS
 }
 
-let sockets = {
-    
+let mongo_db = {
+    uri: process.env.MONGO_DB_URI,
+    name: process.env.DB_NAME,
 }
 
-module.exports = { config };
+let file = {
+    path: "./data",
+}
+
+module.exports = { config, mongo_db , file};

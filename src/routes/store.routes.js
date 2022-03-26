@@ -1,7 +1,7 @@
 const express = require('express');
 const routes = express.Router();
-const contenedor = require("../models/contenedor");
-const carrito = require("../models/carrito");
+const {productosDao} = require("../daos/index");
+const {carritosDao} = require("../daos/index");
 const isAdmin = true
 
 const error403 = {
@@ -12,7 +12,8 @@ const error403 = {
 //rutas para el listado de productos
 routes.get('/productos/:id', async (req, res) => {
         try {
-            let objeto = await contenedor.getById(req.params.id);
+            let objeto = await productosDao.getById(req.params.id);
+            console.log(objeto);
             if (objeto != undefined) {
                 res.json(objeto);
                 }
@@ -28,7 +29,7 @@ routes.get('/productos/:id', async (req, res) => {
 routes.post('/productos', async (req, res) => {
     if(isAdmin){
         try {
-        let objeto = await contenedor.save(req.body);
+        let objeto = await productosDao.save(req.body);
         res.json("objeto guardado");
     }
     catch (error) {
@@ -44,8 +45,8 @@ routes.post('/productos', async (req, res) => {
 routes.delete('/productos/:id', async (req, res) => {
     if(isAdmin){
     try {
-        let objeto = await contenedor.deleteById(req.params.id);
-        res.json("objeto eliminado");
+        let objeto = await productosDao.deleteById(req.params.id);
+        res.json(objeto+" eliminado");
     }
     catch (error) {
         console.log(error);
@@ -58,7 +59,7 @@ routes.delete('/productos/:id', async (req, res) => {
 routes.put('/productos/:id', async (req, res) => {
     if(isAdmin){
     try {
-        await contenedor.update(req.params.id, req.body);
+        await productosDao.update(req.params.id, req.body);
         res.json("objeto actualizado");
     }
     catch (error) {
@@ -71,7 +72,7 @@ routes.put('/productos/:id', async (req, res) => {
 
 routes.get('/productos', async (req, res) => {
     try {
-        let objeto = await contenedor.getAll();
+        let objeto = await productosDao.getAll();
         res.json(objeto);
         }
         catch (error) {
@@ -85,7 +86,7 @@ routes.get('/productos', async (req, res) => {
 
 routes.post('/carrito', async (req, res) => {
     try {
-        let objeto = await carrito.createCarrito(req.params.id);
+        let objeto = await carritosDao.createCarrito(req.params.id);
         res.json({carritoId: objeto});
     }
     catch (error) {
@@ -95,7 +96,7 @@ routes.post('/carrito', async (req, res) => {
 
 routes.delete('/carrito/:id', async (req, res) => {
     try {
-        let objeto = await carrito.deleteAllbyId(req.params.id);
+        let objeto = await carritosDao.deleteAllbyId(req.params.id);
         res.json(objeto);
         }
         catch (error) {
@@ -105,7 +106,7 @@ routes.delete('/carrito/:id', async (req, res) => {
 
 routes.get('/carrito/:id/productos', async (req, res) => {
     try {
-        let objeto = await carrito.getAllbyId(req.params.id);
+        let objeto = await carritosDao.getAllById(req.params.id);
         res.json(objeto);
     }
     catch (error) {
@@ -118,9 +119,9 @@ routes.get('/carrito/:id/productos', async (req, res) => {
 routes.post('/carrito/:id/productos/:id_prod', async (req, res) => {
     try {
 
-        let producto = await contenedor.getById(req.params.id_prod);
+        let producto = await productosDao.getById(req.params.id_prod);
         console.log(producto);
-        let objeto = await carrito.addProducto(req.params.id, producto);
+        let objeto = await carritosDao.addProducto(req.params.id, producto);
         res.json(objeto);
     }
     catch (error) {
@@ -131,7 +132,7 @@ routes.post('/carrito/:id/productos/:id_prod', async (req, res) => {
 
 routes.delete('/carrito/:id/productos/:id_prod', async (req, res) => {
     try {
-        let objeto = await carrito.deleteProducto(req.params.id, req.params.id_prod);
+        let objeto = await carritosDao.deleteProducto(req.params.id, req.params.id_prod);
         res.json(objeto);
         }
         catch (error) {
