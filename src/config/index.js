@@ -7,8 +7,8 @@ let config = {
 }
 
 let mongo_db = {
-    uri: process.env.MONGO_DB_URI,
-    name: process.env.DB_NAME,
+    uri: "mongodb://localhost:27017",
+    name: "webStore2022",
 }
 
 let file = {

@@ -6,9 +6,7 @@ const MONGO_URI = `${mongo_db.uri}/${mongo_db.name}`;
 	try {
 		await mongoose.connect(MONGO_URI, {
             useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useFindAndModify: false,
-            useCreateIndex: true});
+            useUnifiedTopology: true});
 		console.log("Database conectada");
 	} catch (error) {
 		console.log(error);
@@ -46,7 +44,9 @@ class ContainerMongoDB {
 
 	async save(data) {
 		try {
-			await this.collection({...data, timestamps: new Date()}).save();
+			//haz que se pueda guardar un producto nuevo usando los datos del body
+			const dataSaved = await this.collection.create(data);
+			return dataSaved;
 		} catch (error) {
 			console.log("no se puede guardar el archivo");
 		}

@@ -3,7 +3,7 @@ const ContenedorMongoDB = require("../../contenedores/ContenedorMongoDB.js");
 
 class ProductosDaoMongoDB extends ContenedorMongoDB {
 	constructor() {
-		super("product", {
+		super("producto", {
 			title: {type: String, required: true},
 			description: {type: String, required: true},
 			code: {type: Number, required: true, unique: true, min: 0},
