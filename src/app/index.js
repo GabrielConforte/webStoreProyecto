@@ -28,13 +28,3 @@ class App extends React.Component {
 }
 
 render(<App/>, document.getElementById("app"));
-
-//recuerdas las rutas que estan configuradas en routes.js? 
-//si no, puedes verlas en la consola de tu navegador, en la barra de direcciones
-//quiero que hagas funciones que activen esas rutas y que me rendericen los componentes correspondientes
-//para eso, necesitas importar el componente correspondiente en el archivo que corresponda
-//por ahora solo tengo formulario
-//para que funcione, necesito que el componente formulario tenga una propiedad llamada onSubmit
-//la cual recibe una funcion que recibe un objeto con los datos del formulario
-//uy gracias lo habia olvidado
-//ahora, en el componente formulario, necesito que me renderice una lista de productos

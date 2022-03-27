@@ -1,6 +1,6 @@
-import ContainerMongoDB from "../../contenedores/ContainerMongoDB.js";
+const ContenedorMongoDB = require("../../contenedores/ContenedorMongoDB.js");
 
-export default class CartsDaoMongoDB extends ContainerMongoDB {
+class CarritosDaoMongoDB extends ContenedorMongoDB {
 	constructor() {
 		super("cart", {
 			timestamps: {type: Date},
@@ -40,7 +40,6 @@ export default class CartsDaoMongoDB extends ContainerMongoDB {
 			console.log("no se pudo eliminar el producto");
 		}
 	}
-
-
-
 }
+
+module.exports = CarritosDaoMongoDB;

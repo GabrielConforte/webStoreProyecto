@@ -1,3 +1,4 @@
+const {mongoose} = require('mongoose');
 const { mongo_db } = require('../config/index.js');
 const MONGO_URI = `${mongo_db.uri}/${mongo_db.name}`;
 
@@ -8,10 +9,10 @@ const MONGO_URI = `${mongo_db.uri}/${mongo_db.name}`;
             useUnifiedTopology: true,
             useFindAndModify: false,
             useCreateIndex: true});
-		console.log("Database Connected");
+		console.log("Database conectada");
 	} catch (error) {
 		console.log(error);
-		console.log("Failed to connect to Database");
+		console.log("No se puede conectar a la base de datos");
 	}
 	
 })();
@@ -26,7 +27,7 @@ class ContainerMongoDB {
 			const data = await this.collection.find({}, {__v: 0});
 			return data;
 		} catch (error) {
-			console.log("The file cannot be read.");
+			console.log("no se puede leer el archivo");
 		}
 	}
 
@@ -39,7 +40,7 @@ class ContainerMongoDB {
 				return null;
 			}
 		} catch (error) {
-			console.log("The file cannot be read.");
+			console.log("no se pudo leer el archivo");
 		}
 	}
 
@@ -47,7 +48,7 @@ class ContainerMongoDB {
 		try {
 			await this.collection({...data, timestamps: new Date()}).save();
 		} catch (error) {
-			console.log("The file cannot be written.");
+			console.log("no se puede guardar el archivo");
 		}
 	}
 
@@ -58,7 +59,7 @@ class ContainerMongoDB {
 			});
 			return dataUpdate;
 		} catch (error) {
-			console.log("The file cannot be written.");
+			console.log("no se puede editar");
 		}
 	}
 	async delete(id) {
@@ -66,7 +67,7 @@ class ContainerMongoDB {
 			const dataDeleted = await this.collection.deleteOne({_id: id});
 			console.log(dataDeleted);
 		} catch (error) {
-			console.log("The file cannot be deleted.");
+			console.log("no se puede eliminar");
 		}
 	}
 }

@@ -1,7 +1,7 @@
 
 let productosDao;
 let carritosDao;
-let baseType = "files";
+let baseType = "mongodb";
 
 switch (baseType) {
 	case "files":
