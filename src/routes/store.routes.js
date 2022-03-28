@@ -30,7 +30,7 @@ routes.post('/productos', async (req, res) => {
     if(isAdmin){
         try {
         let objeto = await productosDao.save(req.body);
-        res.json(objeto + "guardado");
+        res.json(objeto + " fue guardado");
     }
     catch (error) {
         console.log(error);

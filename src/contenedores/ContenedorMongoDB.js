@@ -22,7 +22,9 @@ class ContainerMongoDB {
 
 	async getAll() {
 		try {
+			
 			const data = await this.collection.find({}, {__v: 0});
+			console.log(data);
 			return data;
 		} catch (error) {
 			console.log("no se puede leer el archivo");
@@ -31,24 +33,27 @@ class ContainerMongoDB {
 
 	async getById(id) {
 		try {
-			const data = await this.getAll();
-			if (data) {
-				let obj = await this.collection.find({_id: id}, {__v: 0});
-				if (obj) return obj[0];
-				return null;
-			}
+			
+			const data = await this.collection.find({"_id": id});
+			return data;
 		} catch (error) {
 			console.log("no se pudo leer el archivo");
 		}
 	}
 
-	async save(data) {
+	async save(objeto) {
 		try {
-			//haz que se pueda guardar un producto nuevo usando los datos del body
-			const dataSaved = await this.collection.create(data);
-			return dataSaved;
+			console.log(objeto)
+			await this.collection.create(objeto);
+			return objeto.title;
 		} catch (error) {
-			console.log("no se puede guardar el archivo");
+			//si sale error de duplicado evitar que se guarde
+			if (error.code == 11000) {
+				return "El objeto ya existe y";
+			}else{
+				console.log("no se puede guardar el archivo ->" + error);
+			}
+			
 		}
 	}
 
