@@ -22,9 +22,7 @@ class ContainerMongoDB {
 
 	async getAll() {
 		try {
-			
 			const data = await this.collection.find({}, {__v: 0});
-			console.log(data);
 			return data;
 		} catch (error) {
 			console.log("no se puede leer el archivo");
@@ -49,7 +47,7 @@ class ContainerMongoDB {
 		} catch (error) {
 			//si sale error de duplicado evitar que se guarde
 			if (error.code == 11000) {
-				return "El objeto ya existe y";
+				return "El objeto ya existe";
 			}else{
 				console.log("no se puede guardar el archivo ->" + error);
 			}
@@ -69,10 +67,18 @@ class ContainerMongoDB {
 	}
 	async delete(id) {
 		try {
-			const dataDeleted = await this.collection.deleteOne({_id: id});
-			console.log(dataDeleted);
+			const data = await this.collection.findByIdAndDelete(id);
+			return data.title;
 		} catch (error) {
 			console.log("no se puede eliminar");
+		}
+	}
+
+	async add(data) {
+		try {
+			await this.collection({...data, timestamps: new Date()}).save();
+		} catch (error) {
+			console.log("no se puede crear");
 		}
 	}
 }

@@ -10,7 +10,7 @@ function Listado() {
     const [productos, setProductos] = useState([]);
     useEffect(() => {
         getLista();
-    }, [productos]);
+    }, []);
 
     const getLista = () => {
         fetch("/api/productos")
@@ -37,7 +37,7 @@ function Listado() {
     }
 
     const agregarAlCarrito = (id) => {
-        fetch(`/api/carrito/1/productos/${id}`, {
+        fetch(`/api/carrito/624232313441d7fe66fc18ce/productos/${id}`, {
             method: "POST"
         })
 

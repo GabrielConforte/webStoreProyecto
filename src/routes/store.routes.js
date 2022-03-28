@@ -13,7 +13,6 @@ const error403 = {
 routes.get('/productos/:id', async (req, res) => {
         try {
             let objeto = await productosDao.getById(req.params.id);
-            console.log(objeto);
             if (objeto != undefined) {
                 res.json(objeto);
                 }
@@ -30,7 +29,11 @@ routes.post('/productos', async (req, res) => {
     if(isAdmin){
         try {
         let objeto = await productosDao.save(req.body);
-        res.json(objeto + " fue guardado");
+        if (objeto != 'El objeto ya existe') {
+        res.json(objeto + " fue guardado");}
+        else {
+            res.json(objeto);
+        }
     }
     catch (error) {
         console.log(error);
@@ -45,8 +48,8 @@ routes.post('/productos', async (req, res) => {
 routes.delete('/productos/:id', async (req, res) => {
     if(isAdmin){
     try {
-        let objeto = await productosDao.deleteById(req.params.id);
-        res.json(objeto+" eliminado");
+        let objeto = await productosDao.delete(req.params.id);
+        res.json(objeto +" eliminado");
     }
     catch (error) {
         console.log(error);
@@ -80,18 +83,24 @@ routes.get('/productos', async (req, res) => {
             }
             });
 
-//rutas para el carrito
 
+routes.post("/carrito", (req, res) => {
+	try {
+		carritosDao.add({...req.body});
+		res.send("Carrito creado");
+	} catch (error) {
+		res.send(error);
+		};
+	});
 
-
-routes.post('/carrito', async (req, res) => {
+    //get carrito con id
+routes.get("/carrito/:id", async (req, res) => {
     try {
-        let objeto = await carritosDao.createCarrito(req.params.id);
-        res.json({carritoId: objeto});
-    }
-    catch (error) {
-        console.log(error);
-    }
+        let objeto = await carritosDao.getById(req.params.id);
+        res.json(objeto[0]);
+    } catch (error) {
+        res.send(error);
+    };
 });
 
 routes.delete('/carrito/:id', async (req, res) => {
@@ -107,7 +116,7 @@ routes.delete('/carrito/:id', async (req, res) => {
 routes.get('/carrito/:id/productos', async (req, res) => {
     try {
         let objeto = await carritosDao.getAllById(req.params.id);
-        res.json(objeto);
+        res.json(objeto.items);
     }
     catch (error) {
         console.log(error);
@@ -120,7 +129,6 @@ routes.post('/carrito/:id/productos/:id_prod', async (req, res) => {
     try {
 
         let producto = await productosDao.getById(req.params.id_prod);
-        console.log(producto);
         let objeto = await carritosDao.addProducto(req.params.id, producto);
         res.json(objeto);
     }
@@ -140,6 +148,17 @@ routes.delete('/carrito/:id/productos/:id_prod', async (req, res) => {
             }
             });
                 
+
+//ruta get para traer todos los carritos
+routes.get('/carrito', async (req, res) => {
+    try {
+        let objeto = await carritosDao.getAll();
+        res.json(objeto);
+        }
+        catch (error) {
+            console.log(error);
+            }
+            });
 
 
     module.exports = routes;

@@ -1,34 +1,46 @@
 import React , {useState, useEffect} from "react";
 
 function Carrito() {
-    let carrito_id = 1;
+   const [CarritoId, setCarritoId] = useState("");
    const [carrito, setCarrito] = useState([]);
-    let aux = '';
-    
+
+
+
     useEffect(() => {
         getLista();
-    }, [carrito]);
+        //esto hace que tariga el primer carrito siempre, despues se puede hacer una funcion que busque el carrito que esta activo o crear nuevos carritos
+        getCarrito();
+    }, []);
 
-    const getLista = () => {
-        fetch(`/api/carrito/${carrito_id}/productos`)
+    const getCarrito = () => {
+        fetch("/api/carrito")
             .then(res => res.json())
             .then(data => {
-                if(data.length > 0){
-                aux = data[0].items;
-                setCarrito(aux);}
+                
+                if(data!=null||data!=undefined){
+                setCarritoId(data[0]._id);}
                 else{
-                    fetch(`/api/carrito`,{
-                        method: "POST",
+                    fetch("/api/carrito", {
+                        method: "POST"
                     })
-                    .then(data => {
-                        setCarrito(data);
-                    })
+                    getCarrito();
                 }
             })
     }
+
+
+    const getLista = () => {
+        fetch(`/api/carrito/${CarritoId}`)
+            .then(res => res.json())
+            .then(data => {
+                setCarrito(data[0].items);
+                
+            }
+            );
+    }
     const eliminarProducto = (id) => {
         console.log("entro")
-        fetch(`/api/carrito/${carrito_id}/productos/${id}`, {
+        fetch(`/api/carrito/${CarritoId}/productos/${id}`, {
             method: "DELETE"
         })
             .then(res => res.json())
@@ -39,7 +51,7 @@ function Carrito() {
     }
 
     const vaciarCarrito = () => {
-        fetch(`/api/carrito/${carrito_id}`, {
+        fetch(`/api/carrito/${CarritoId}`, {
             method: "DELETE"
         })
             .then(res => res.json())
@@ -55,10 +67,10 @@ function Carrito() {
                 <div className="card-text">
                     
                     { carrito.length > 0 ? <>
-                    {
+                    {console.log(carrito)}{
                     carrito.map(items => {
                             return (
-                                <div key={items.codigo} className="mb-3 card text-center">
+                                <div key={items.id} className="mb-3 card text-center">
                                     <h4>{items.title}</h4>
                                     <p>{"$"+items.price}</p>
                                     <p>{<img width="50px" src={items.thumbnail}></img>}</p>

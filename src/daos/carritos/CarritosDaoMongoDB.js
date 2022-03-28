@@ -2,44 +2,57 @@ const ContenedorMongoDB = require("../../contenedores/ContenedorMongoDB.js");
 
 class CarritosDaoMongoDB extends ContenedorMongoDB {
 	constructor() {
-		super("cart", {
+		super("carritos", {
 			timestamps: {type: Date},
-			product: Array,
+			items: {},
 		});
 	}
 
-	async addProductos(id, newProduct) {
-		try {
-			const cart = await this.getById(id);
-			await newProduct.forEach((element) => {
-				cart.product.push(element);
-			});
-			if (cart) {
-				const data = await this.collection.findByIdAndUpdate(
-					id,
-					{$set: {product: cart.product}},
-					{
-						new: true,
-					}
-				);
-				console.log(data.product);
+async addProducto(id, producto){
+	try {
+		console.log(producto)
+		let objeto = await this.collection.updateOne({
+			_id: id
+		}, {
+			$push: {
+				items: producto[0]
 			}
-		} catch (error) {
-			console.log("no se pudo agregar el producto");
-		}
+		});
+		return objeto;
 	}
-	async deleteProductos(id, id_prod) {
-		try {
-			const cart = await this.getById(id);
-			if (cart) {
-				let prFind = await cart.product.filter((element) => element.id != id_prod);
-				cart.product = prFind;
-				this.editById(id, cart);
+	catch (error) {
+		console.log(error);
+	}
+}
+
+async getAllById(id){
+	try {
+		let objeto = await this.collection.findOne({
+			_id: id
+		});
+		return objeto;
+	}
+	catch (error) {
+		console.log(error);
+	}
+}
+
+async deleteProducto(id, producto){
+	try {
+		let objeto = await this.collection.updateOne({
+			_id: id
+		}, {
+			$pull: {
+				items: producto
 			}
-		} catch (error) {
-			console.log("no se pudo eliminar el producto");
-		}
+		});
+		return objeto;
 	}
+	catch (error) {
+		console.log(error);
+	}
+}
+
 }
 
 module.exports = CarritosDaoMongoDB;
