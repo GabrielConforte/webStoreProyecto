@@ -8,7 +8,6 @@ function Carrito() {
 
     useEffect(() => {
         getLista();
-        //esto hace que tariga el primer carrito siempre, despues se puede hacer una funcion que busque el carrito que esta activo o crear nuevos carritos
         getCarrito();
     }, []);
 
@@ -18,7 +17,7 @@ function Carrito() {
             .then(data => {
                 
                 if(data!=null||data!=undefined){
-                setCarritoId(data[0]._id);}
+                setCarritoId(data[0].code);}
                 else{
                     fetch("/api/carrito", {
                         method: "POST"
@@ -34,19 +33,16 @@ function Carrito() {
             .then(res => res.json())
             .then(data => {
                 setCarrito(data[0].items);
-                
             }
             );
     }
     const eliminarProducto = (id) => {
-        console.log("entro")
         fetch(`/api/carrito/${CarritoId}/productos/${id}`, {
             method: "DELETE"
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
-                setCarrito(carrito.filter(producto => producto.id !== id));
+                setCarrito(carrito.filter(producto => producto.code !== id));
             })
     }
 
@@ -70,11 +66,11 @@ function Carrito() {
                     {console.log(carrito)}{
                     carrito.map(items => {
                             return (
-                                <div key={items.id} className="mb-3 card text-center">
+                                <div key={items.code} className="mb-3 card text-center">
                                     <h4>{items.title}</h4>
                                     <p>{"$"+items.price}</p>
                                     <p>{<img width="50px" src={items.thumbnail}></img>}</p>
-                                    <button type="submit" onClick={()=>eliminarProducto(items.id)} className="btn btn-danger">eliminar</button>
+                                    <button type="submit" onClick={()=>eliminarProducto(items.code)} className="btn btn-danger">eliminar</button>
                                 </div>
                             )
                         }

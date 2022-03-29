@@ -32,7 +32,7 @@ class ContainerMongoDB {
 	async getById(id) {
 		try {
 			
-			const data = await this.collection.find({"_id": id});
+			const data = await this.collection.find({"code": id});
 			return data;
 		} catch (error) {
 			console.log("no se pudo leer el archivo");
@@ -67,7 +67,7 @@ class ContainerMongoDB {
 	}
 	async delete(id) {
 		try {
-			const data = await this.collection.findByIdAndDelete(id);
+			const data = await this.collection.findByIdAndDelete({"code": id});
 			return data.title;
 		} catch (error) {
 			console.log("no se puede eliminar");
@@ -81,6 +81,19 @@ class ContainerMongoDB {
 			console.log("no se puede crear");
 		}
 	}
+
+	//crear una funcion para actualizar usando los datos del body
+	async update(id, data) {
+		try {
+			const dataUpdate = await this.collection.findByIdAndUpdate(id, data, {
+				new: true,
+			});
+			return dataUpdate;
+		}catch (error) {
+			console.log("no se puede actualizar");
+		}
+}
+
 }
 
 module.exports = ContainerMongoDB;

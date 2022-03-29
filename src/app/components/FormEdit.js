@@ -10,7 +10,7 @@ function FormEdit(props){
     const editProducto = (e) => {
         e.preventDefault();
         console.log(e.target.description.value);
-        fetch(`/api/productos/${producto.id}`, {
+        fetch(`/api/productos/${producto._id}`, {
             method: "PUT",
             body: JSON.stringify({
                 title: e.target.title.value,

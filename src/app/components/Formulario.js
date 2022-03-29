@@ -14,7 +14,7 @@ function Formulario() {
                 price: e.target.price.value,
                 thumbnail: e.target.thumbnail.value,
                 description: e.target.description.value,
-                codigo: ((Math.random() * 10000)+ new Date().getTime()),
+                code: ((Math.random() * 10000)+ new Date().getTime()),
                 stock: e.target.stock.value
             }),
             headers: {

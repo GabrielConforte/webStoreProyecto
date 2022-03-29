@@ -11,11 +11,11 @@ class CarritosDaoMongoDB extends ContenedorMongoDB {
 async addProducto(id, producto){
 	try {
 		let carritoTemporal = await this.collection.findOne({
-			_id: id
+			code: id
 		});
 		carritoTemporal.items.push(producto[0]);
 		let objeto = await this.collection.updateOne({
-			_id: id
+			code: id
 		}, {
 			$set: {
 				items: carritoTemporal.items
@@ -31,7 +31,7 @@ async addProducto(id, producto){
 async getAllById(id){
 	try {
 		let objeto = await this.collection.findOne({
-			_id: id
+			code: id
 		});
 		return objeto;
 	}
@@ -43,12 +43,12 @@ async getAllById(id){
 async deleteProducto(id, producto){
 	try {
 		let carritoTemporal = await this.collection.findOne({
-			_id: id
+			code: id
 		});
-		let productoTemporal = carritoTemporal.items.find(item => item.id == producto);
+		let productoTemporal = carritoTemporal.items.find(item => item.code == producto);
 		carritoTemporal.items.splice(carritoTemporal.items.indexOf(productoTemporal), 1);
 		let objeto = await this.collection.updateOne({
-			_id: id
+			code: id
 		}, {
 			$set: {
 				items: carritoTemporal.items
