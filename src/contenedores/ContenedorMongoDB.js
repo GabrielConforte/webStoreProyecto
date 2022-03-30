@@ -57,7 +57,7 @@ class ContainerMongoDB {
 
 	async editById(id, obj) {
 		try {
-			const dataUpdate = await this.collection.findByIdAndUpdate(id, obj, {
+			const dataUpdate = await this.collection.findOneAndUpdate(id, obj, {
 				new: true,
 			});
 			return dataUpdate;
@@ -67,7 +67,8 @@ class ContainerMongoDB {
 	}
 	async delete(id) {
 		try {
-			const data = await this.collection.findByIdAndDelete({"code": id});
+			console.log(id);
+			const data = await this.collection.findOneAndDelete({"code": id});
 			return data.title;
 		} catch (error) {
 			console.log("no se puede eliminar");
@@ -76,7 +77,7 @@ class ContainerMongoDB {
 
 	async add(data) {
 		try {
-			await this.collection({...data, timestamps: new Date()}).save();
+			await this.collection({...data, timestamps: new Date(), items: []} ).save();
 		} catch (error) {
 			console.log("no se puede crear");
 		}

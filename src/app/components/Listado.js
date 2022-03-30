@@ -3,33 +3,18 @@ import React from "react";
 import {render} from "react-dom";
 import { useState, useEffect } from "react";
 import FormEdit from "./FormEdit";
-
+import {AppContext} from "./contexts/ContextoCarrito";
+import {useContext} from "react";
 
 
 function Listado() {
     const [productos, setProductos] = useState([]);
-    const [carritoId, setCarritoId] = useState("");
+    const {carritoId} = useContext(AppContext);
 
     useEffect(() => {
         getLista();
-        getCarrito();
     }, []);
 
-    const getCarrito = () => {
-        fetch("/api/carrito")
-            .then(res => res.json())
-            .then(data => {
-                
-                if(data!=null||data!=undefined){
-                setCarritoId(data[0].code);}
-                else{
-                    fetch("/api/carrito", {
-                        method: "POST"
-                    })
-                    getCarrito();
-                }
-            })
-    }
 
     const getLista = () => {
         fetch("/api/productos")
@@ -55,7 +40,7 @@ function Listado() {
         render(<FormEdit producto={producto} />, document.getElementById("app"));
     }
 
-    const agregarAlCarrito = (id) => {
+    const agregarAlCarrito = (id) => {console.log(carritoId)
         fetch(`/api/carrito/${carritoId}/productos/${id}`, {
             method: "POST"
         })

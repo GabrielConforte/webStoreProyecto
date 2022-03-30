@@ -11,7 +11,7 @@ class CarritosDaoMongoDB extends ContenedorMongoDB {
 async addProducto(id, producto){
 	try {
 		let carritoTemporal = await this.collection.findOne({
-			code: id
+			id: id
 		});
 		carritoTemporal.items.push(producto[0]);
 		let objeto = await this.collection.updateOne({
@@ -62,6 +62,18 @@ async deleteProducto(id, producto){
 		console.log(error);
 	}
 }
+
+	async deleteAllbyId(id){
+		try {
+			let objeto = await this.collection.deleteOne({
+				id: id
+			});
+			return objeto;
+		}
+		catch (error) {
+			console.log(error);
+		}
+	}
 
 }
 

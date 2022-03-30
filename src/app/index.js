@@ -3,7 +3,8 @@ import {render}from "react-dom";
 import Formulario from "./components/Formulario";
 import Listado from "./components/Listado";
 import Carrito from "./components/Carrito";
-
+//trae el contexto
+import ContextoCarrito from "./components/contexts/ContextoCarrito";
 
 class App extends React.Component {
     render() {
@@ -16,9 +17,11 @@ class App extends React.Component {
           </nav>
           <div className="mt-2 container">
                 <div className="row">
-                    <Formulario/>
-                    <Listado/>
-                    <Carrito/>
+                    <ContextoCarrito>
+                        <Formulario/>
+                        <Listado/>
+                        <Carrito/>
+                    </ContextoCarrito>
                 </div>
             </div>
             

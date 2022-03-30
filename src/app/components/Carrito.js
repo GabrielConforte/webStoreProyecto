@@ -1,43 +1,34 @@
-import React , {useState, useEffect} from "react";
+import React , {useState, useEffect, useContext} from "react";
+import {AppContext} from "./contexts/ContextoCarrito";
+
 
 function Carrito() {
-   const [CarritoId, setCarritoId] = useState("");
+   const {carritoId} = useContext(AppContext);
    const [carrito, setCarrito] = useState([]);
 
-
-
     useEffect(() => {
+        console.log(carritoId)
         getLista();
-        getCarrito();
     }, []);
 
-    const getCarrito = () => {
-        fetch("/api/carrito")
+    const getLista = () => {
+            fetch("/api/carrito")
             .then(res => res.json())
             .then(data => {
-                
-                if(data!=null||data!=undefined){
-                setCarritoId(data[0].code);}
+
+                if(data.length > 0){
+                setCarrito(data[0].items);
+                }
                 else{
                     fetch("/api/carrito", {
                         method: "POST"
                     })
-                    getCarrito();
                 }
             })
     }
 
-
-    const getLista = () => {
-        fetch(`/api/carrito/${CarritoId}`)
-            .then(res => res.json())
-            .then(data => {
-                setCarrito(data[0].items);
-            }
-            );
-    }
     const eliminarProducto = (id) => {
-        fetch(`/api/carrito/${CarritoId}/productos/${id}`, {
+        fetch(`/api/carrito/${carritoId}/productos/${id}`, {
             method: "DELETE"
         })
             .then(res => res.json())
@@ -47,7 +38,7 @@ function Carrito() {
     }
 
     const vaciarCarrito = () => {
-        fetch(`/api/carrito/${CarritoId}`, {
+        fetch(`/api/carrito/${carritoId}`, {
             method: "DELETE"
         })
             .then(res => res.json())
