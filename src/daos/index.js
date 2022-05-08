@@ -17,8 +17,8 @@ switch (baseType) {
 		carritosDao = new CarritosDaoMongoDB();
 		break;
 	case "firebase":
-		const {default: ProductsDaoFirebase} = import("./productos/ProductosDaoFirebase.js");
-		const {default: CartsDaoFirebase} = import("./carritos/CarritosDaoFirebase.js");
+		const ProductosDaoFirebase = import("./productos/ProductosDaoFirebase.js");
+		const CarritosDaoFirebase = import("./carritos/CarritosDaoFirebase.js");
 		productosDao = new ProductosDaoFirebase();
 		carritosDao = new CarritosDaoFirebase();
 		break;
